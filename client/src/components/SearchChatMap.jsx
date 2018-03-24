@@ -49,6 +49,10 @@ const SearchChatMap = compose(
   lifecycle({
     componentWillMount() {
       const refs = {};
+      const location = window.location.pathname;
+      let x = 51.107883;
+      let y =  17.038538;
+
 
       this.setState({
         bounds: null,
@@ -70,7 +74,6 @@ const SearchChatMap = compose(
               100
             );
           });
-          showLiveChat();
         },
         onBoundsChanged: _.debounce(() => {
           this.setState({
@@ -108,9 +111,30 @@ const SearchChatMap = compose(
           });
         },
         onMarkerClick: marker => {
+          showLiveChat();
+
           console.log(marker.name);
         }
       });
+    },
+    componentDidMount(){
+      setTimeout( () =>{
+        var input = document.getElementById("searchbar")
+
+        google.maps.event.trigger( input, 'keydown', {keyCode:40})
+        google.maps.event.trigger( input, 'keydown', {keyCode:13})
+        google.maps.event.trigger( input, 'focus')
+        google.maps.event.trigger( input, 'keydown', {keyCode:13})
+      },1500)     
+      setTimeout( () =>{
+        var input = document.getElementById("searchbar")
+
+        google.maps.event.trigger( input, 'keydown', {keyCode:40})
+        google.maps.event.trigger( input, 'keydown', {keyCode:13})
+        google.maps.event.trigger( input, 'focus')
+        google.maps.event.trigger( input, 'keydown', {keyCode:13})
+      },2500)     
+
     }
   }),
   withScriptjs,
@@ -131,6 +155,8 @@ const SearchChatMap = compose(
       <input
         type="text"
         placeholder="Customized your placeholder"
+        defaultValue={window.location.pathname.replace('/', '')}
+        id="searchbar"
         style={{
           boxSizing: `border-box`,
           border: `1px solid transparent`,
