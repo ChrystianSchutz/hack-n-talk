@@ -49,6 +49,10 @@ const SearchChatMap = compose(
   lifecycle({
     componentWillMount() {
       const refs = {};
+      const location = window.location.pathname;
+      let x = 51.107883;
+      let y =  17.038538;
+
 
       this.setState({
         searchValue: '',
@@ -71,7 +75,6 @@ const SearchChatMap = compose(
               100
             );
           });
-          showLiveChat();
         },
         onBoundsChanged: _.debounce(() => {
           this.setState({
@@ -110,7 +113,10 @@ const SearchChatMap = compose(
           });
         },
         onMarkerClick: marker => {
-          window.location = `/${marker.category}/${marker.name}`;
+          showLiveChat();
+
+          console.log(marker.name);
+      //    window.location = `/${marker.category}/${marker.name}`;
         },
         onInputChange: event => {
           this.setState({
@@ -118,6 +124,25 @@ const SearchChatMap = compose(
           });
         }
       });
+    },
+    componentDidMount(){
+      setTimeout( () =>{
+        var input = document.getElementById("searchbar")
+
+        google.maps.event.trigger( input, 'keydown', {keyCode:40})
+        google.maps.event.trigger( input, 'keydown', {keyCode:13})
+        google.maps.event.trigger( input, 'focus')
+        google.maps.event.trigger( input, 'keydown', {keyCode:13})
+      },1500)     
+      setTimeout( () =>{
+        var input = document.getElementById("searchbar")
+
+        google.maps.event.trigger( input, 'keydown', {keyCode:40})
+        google.maps.event.trigger( input, 'keydown', {keyCode:13})
+        google.maps.event.trigger( input, 'focus')
+        google.maps.event.trigger( input, 'keydown', {keyCode:13})
+      },2500)     
+
     }
   }),
   withScriptjs,
@@ -137,6 +162,8 @@ const SearchChatMap = compose(
     >
       <input
         type="text"
+        defaultValue={window.location.pathname.replace('/', '')}
+        id="searchbar"
         placeholder="What would you like to eat?"
         onChange={props.onInputChange}
         style={{
