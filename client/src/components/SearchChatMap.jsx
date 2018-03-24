@@ -116,7 +116,7 @@ const SearchChatMap = compose(
           showLiveChat();
 
           console.log(marker.name);
-      //    window.location = `/${marker.category}/${marker.name}`;
+          window.location = `/${marker.category}/${marker.name}`;
         },
         onInputChange: event => {
           this.setState({
@@ -166,6 +166,7 @@ const SearchChatMap = compose(
         id="searchbar"
         placeholder="What would you like to eat?"
         onChange={props.onInputChange}
+        onInput={props.onInputChange}
         style={{
           boxSizing: `border-box`,
           border: `1px solid transparent`,
@@ -183,7 +184,7 @@ const SearchChatMap = compose(
     </SearchBox>
     {props.markers.map((marker, index) => {
       const supportedIcons = ['sushi', 'burger', 'chinese', 'pizza', 'fastfood'];
-      const found = supportedIcons.find(i => props.searchValue.includes(i));
+      const found = supportedIcons.find(i => props.searchValue.includes(i) || window.location.pathname.replace('/', '').includes(i));
       const icon = Boolean(found)
         ? `../icons/${found}.png`
         : undefined;
