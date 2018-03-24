@@ -10,6 +10,8 @@ const {
   MarkerWithLabel
 } = require('react-google-maps/lib/components/addons/MarkerWithLabel');
 
+const supportedIcons = ['sushi', 'burger', 'chinese', 'pizza', 'fastfood'];
+
 const getLocation = onGeoLocationLoaded => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(onGeoLocationLoaded);
@@ -18,10 +20,10 @@ const getLocation = onGeoLocationLoaded => {
   }
 };
 
-const showLiveChat = () => {
+const showLiveChat = (license) => {
   /* eslint-disable */
   window.__lc = window.__lc || {};
-  window.__lc.license = 9616670;
+  window.__lc.license = license;
   (function() {
     var lc = document.createElement('script');
     lc.type = 'text/javascript';
@@ -52,7 +54,9 @@ const SearchChatMap = compose(
       const location = window.location.pathname;
       let x = 51.107883;
       let y =  17.038538;
-
+      if(location == '/'){
+        showLiveChat(9616670);
+      }
 
       this.setState({
         searchValue: '',
@@ -113,10 +117,10 @@ const SearchChatMap = compose(
           });
         },
         onMarkerClick: marker => {
-          showLiveChat();
+          showLiveChat(9617260);
 
           console.log(marker.name);
-          window.location = `/${marker.category}/${marker.name}`;
+        //  window.location = ` ${window.location.href}${marker.category}/${marker.name}`;
         },
         onInputChange: event => {
           this.setState({
@@ -128,20 +132,13 @@ const SearchChatMap = compose(
     componentDidMount(){
       setTimeout( () =>{
         var input = document.getElementById("searchbar")
-
-        google.maps.event.trigger( input, 'keydown', {keyCode:40})
-        google.maps.event.trigger( input, 'keydown', {keyCode:13})
         google.maps.event.trigger( input, 'focus')
         google.maps.event.trigger( input, 'keydown', {keyCode:13})
       },1500)     
       setTimeout( () =>{
         var input = document.getElementById("searchbar")
-
-        google.maps.event.trigger( input, 'keydown', {keyCode:40})
         google.maps.event.trigger( input, 'keydown', {keyCode:13})
-        google.maps.event.trigger( input, 'focus')
-        google.maps.event.trigger( input, 'keydown', {keyCode:13})
-      },2500)     
+      },2000)     
 
     }
   }),
@@ -162,7 +159,7 @@ const SearchChatMap = compose(
     >
       <input
         type="text"
-        defaultValue={window.location.pathname.replace('/', '')}
+        defaultValue={ supportedIcons.find(i =>  window.location.pathname.replace('/', '').includes(i)) }
         id="searchbar"
         placeholder="What would you like to eat?"
         onChange={props.onInputChange}
@@ -183,7 +180,6 @@ const SearchChatMap = compose(
       />
     </SearchBox>
     {props.markers.map((marker, index) => {
-      const supportedIcons = ['sushi', 'burger', 'chinese', 'pizza', 'fastfood'];
       const found = supportedIcons.find(i => props.searchValue.includes(i) || window.location.pathname.replace('/', '').includes(i));
       const icon = Boolean(found)
         ? `../icons/${found}.png`
