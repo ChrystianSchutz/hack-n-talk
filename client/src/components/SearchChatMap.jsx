@@ -117,10 +117,14 @@ const SearchChatMap = compose(
           });
         },
         onMarkerClick: marker => {
-          showLiveChat(9617260);
-
+          
           console.log(marker.name);
-        //  window.location = ` ${window.location.href}${marker.category}/${marker.name}`;
+          if(location == '/'){
+            window.location = ` ${window.location.href}/${marker.name}`;
+          }else{
+                        showLiveChat(9617260);
+          }
+         
         },
         onInputChange: event => {
           this.setState({
@@ -159,7 +163,7 @@ const SearchChatMap = compose(
     >
       <input
         type="text"
-        defaultValue={ supportedIcons.find(i =>  window.location.pathname.replace('/', '').includes(i)) }
+        defaultValue={ decodeURIComponent(window.location.pathname).replace('/', '') }
         id="searchbar"
         placeholder="What would you like to eat?"
         onChange={props.onInputChange}
