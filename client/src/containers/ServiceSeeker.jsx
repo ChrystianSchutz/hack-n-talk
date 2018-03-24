@@ -1,9 +1,9 @@
 import React from 'react';
-import ChatMap from '../components/ChatMap';
+import SearchChatMap from '../components/SearchChatMap';
 
 const ServiceSeeker = () => (
   <div className="service-seeker">
-    <ChatMap />
+    <SearchChatMap />
   </div>
 );
 
