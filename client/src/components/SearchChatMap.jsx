@@ -147,13 +147,19 @@ const SearchChatMap = compose(
         }}
       />
     </SearchBox>
-    {props.markers.map((marker, index) => (
-      <Marker
-        key={index}
-        position={marker.position}
-        onClick={props.onMarkerClick}
-      />
-    ))}
+    {props.markers.map((marker, index) => {
+      return (
+        <Marker
+          key={index}
+          position={marker.position}
+          onClick={props.onMarkerClick}
+          icon={'../icons/burger.png'}
+          size={new google.maps.Size(16, 16)}
+        >
+          TESTSTETSTEST
+        </Marker>
+      );
+    })}
   </GoogleMap>
 ));
 
