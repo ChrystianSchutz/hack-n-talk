@@ -71,12 +71,12 @@ const SearchChatMap = compose(
           });
           showLiveChat();
         },
-        onBoundsChanged: () => {
+        onBoundsChanged: _.debounce(() => {
           this.setState({
             bounds: refs.map.getBounds(),
             center: refs.map.getCenter()
           });
-        },
+        }, 500),
         onSearchBoxMounted: ref => {
           refs.searchBox = ref;
         },
