@@ -18,10 +18,10 @@ const ChatMapBase = compose(
   withScriptjs,
   withGoogleMap
 )(props => (
-  <GoogleMap defaultZoom={8} defaultCenter={{ lat: -34.397, lng: 150.644 }}>
+  <GoogleMap defaultZoom={13} defaultCenter={{ lat: 51.107883, lng: 17.038538 }}>
     {props.isMarkerShown && (
       <Marker
-        position={{ lat: -34.397, lng: 150.644 }}
+        position={{ lat: 51.107883, lng: 17.038538 }}
         onClick={props.onMarkerClick}
       />
     )}
@@ -38,12 +38,26 @@ export default class ChatMap extends React.PureComponent {
   }
 
   delayedShowMarker = () => {
-    setTimeout(() => {
       this.setState({ isMarkerShown: true });
-    }, 3000);
   };
 
+  showLiveChat = () =>{
+    /* eslint-disable */
+    window.__lc = window.__lc || {};
+    window.__lc.license = 9616670;
+    (function() {
+      var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
+      lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
+    })();
+
+    setTimeout(function(){ 
+      parent.LC_API.open_chat_window({source:'minimized'}) 
+     }, 1000);
+  }
+
   handleMarkerClick = () => {
+    this.showLiveChat();
     this.setState({ isMarkerShown: false });
     this.delayedShowMarker();
   };
