@@ -155,12 +155,17 @@ const SearchChatMap = compose(
       />
     </SearchBox>
     {props.markers.map((marker, index) => {
+      const supportedIcons = ['sushi', 'burger', 'chinese', 'pizza', 'fastfood'];
+      const found = supportedIcons.find(i => props.searchValue.includes(i));
+      const icon = Boolean(found)
+        ? `../icons/${found}.png`
+        : undefined;
       return (
         <MarkerWithLabel
           key={index}
           position={marker.position}
           onClick={() => props.onMarkerClick(marker)}
-          icon={`../icons/${props.searchValue}.png`}
+          icon={icon}
           size={new google.maps.Size(16, 16)}
           labelAnchor={new google.maps.Point(-16, 32)}
           labelStyle={{
