@@ -6,7 +6,7 @@ class App extends Component {
   render() {
     return (
       <div className="geo-chat">
-        <h2>Geo Chat</h2>
+        <h2>LocalChat</h2>
         <ServiceSeeker />
       </div>
     );

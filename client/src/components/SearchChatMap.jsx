@@ -45,7 +45,7 @@ const SearchChatMap = compose(
     googleMapURL:
       'https://maps.googleapis.com/maps/api/js?key=AIzaSyA0Bqc3sHPL5KC4J3d_PmgwyTGV09_2ZWs&v=3.exp&libraries=geometry,drawing,places',
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `600px`, width: `70%` }} />,
+    containerElement: <div style={{ height: `600px`, width: `100%` }} />,
     mapElement: <div style={{ height: `100%` }} />
   }),
   lifecycle({
@@ -62,12 +62,15 @@ const SearchChatMap = compose(
         onMapMounted: ref => {
           refs.map = ref;
           getLocation(position => {
-            this.setState({
-              center: {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-              }
-            });
+            setTimeout(
+              this.setState({
+                center: {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude
+                }
+              }),
+              500
+            );
           });
           showLiveChat();
         },
@@ -105,8 +108,8 @@ const SearchChatMap = compose(
             markers: nextMarkers
           });
         },
-        onMarkerClick: (marker) => {
-          console.log(marker.latLng.lat() + " " + marker.latLng.lng());
+        onMarkerClick: marker => {
+          console.log(marker.latLng.lat() + ' ' + marker.latLng.lng());
         }
       });
     }
