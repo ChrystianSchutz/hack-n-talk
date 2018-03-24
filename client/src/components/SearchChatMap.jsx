@@ -2,15 +2,13 @@ import React from 'react';
 
 const _ = require('lodash');
 const { compose, withProps, lifecycle } = require('recompose');
-const {
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Marker
-} = require('react-google-maps');
+const { withScriptjs, withGoogleMap, GoogleMap } = require('react-google-maps');
 const {
   SearchBox
 } = require('react-google-maps/lib/components/places/SearchBox');
+const {
+  MarkerWithLabel
+} = require('react-google-maps/lib/components/addons/MarkerWithLabel');
 
 const getLocation = onGeoLocationLoaded => {
   if (navigator.geolocation) {
@@ -55,8 +53,8 @@ const SearchChatMap = compose(
       this.setState({
         bounds: null,
         center: {
-          lat: 41.9,
-          lng: -87.624
+          lat: 51.107885,
+          lng: 17.038538
         },
         markers: [],
         onMapMounted: ref => {
@@ -69,7 +67,7 @@ const SearchChatMap = compose(
                   lng: position.coords.longitude
                 }
               }),
-              500
+              100
             );
           });
           showLiveChat();
@@ -95,7 +93,8 @@ const SearchChatMap = compose(
             }
           });
           const nextMarkers = places.map(place => ({
-            position: place.geometry.location
+            position: place.geometry.location,
+            name: place.name
           }));
           const nextCenter = _.get(
             nextMarkers,
@@ -109,7 +108,7 @@ const SearchChatMap = compose(
           });
         },
         onMarkerClick: marker => {
-          console.log(marker.latLng.lat() + ' ' + marker.latLng.lng());
+          console.log(marker.name);
         }
       });
     }
@@ -149,15 +148,17 @@ const SearchChatMap = compose(
     </SearchBox>
     {props.markers.map((marker, index) => {
       return (
-        <Marker
+        <MarkerWithLabel
           key={index}
           position={marker.position}
-          onClick={props.onMarkerClick}
+          onClick={() => props.onMarkerClick(marker)}
           icon={'../icons/burger.png'}
           size={new google.maps.Size(16, 16)}
+          labelAnchor={new google.maps.Point(-16, 32)}
+          labelStyle={{backgroundColor: "#FFFACD", fontSize: "10px", padding: "5px", borderRadius: "5px"}}
         >
-          TESTSTETSTEST
-        </Marker>
+          <span>{marker.name}</span>
+        </MarkerWithLabel>
       );
     })}
   </GoogleMap>
