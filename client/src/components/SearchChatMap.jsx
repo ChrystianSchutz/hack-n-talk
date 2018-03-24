@@ -43,7 +43,7 @@ const showLiveChat = (license) => {
 const SearchChatMap = compose(
   withProps({
     googleMapURL:
-      'https://maps.googleapis.com/maps/api/js?key=AIzaSyA0Bqc3sHPL5KC4J3d_PmgwyTGV09_2ZWs&v=3.exp&libraries=geometry,drawing,places',
+      'https://maps.googleapis.com/maps/api/js?key='APIKET'&v=3.exp&libraries=geometry,drawing,places',
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `600px`, width: `100%` }} />,
     mapElement: <div style={{ height: `100%` }} />
@@ -68,17 +68,17 @@ const SearchChatMap = compose(
         markers: [],
         onMapMounted: ref => {
           refs.map = ref;
-          getLocation(position => {
-            setTimeout(
-              this.setState({
-                center: {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude
-                }
-              }),
-              100
-            );
-          });
+            // getLocation(position => {
+            //   setTimeout(
+            //     this.setState({
+            //       center: {
+            //         lat: position.coords.latitude,
+            //         lng: position.coords.longitude
+            //       }
+            //     }),
+            //     100
+            //   );
+            // });
         },
         onBoundsChanged: _.debounce(() => {
           this.setState({
@@ -184,7 +184,7 @@ const SearchChatMap = compose(
       />
     </SearchBox>
     {props.markers.map((marker, index) => {
-      const found = supportedIcons.find(i => props.searchValue.includes(i) || window.location.pathname.replace('/', '').includes(i));
+      const found = supportedIcons.find(i => props.searchValue.includes(i.toLowerCase())|| window.location.pathname.replace('/', '').toLowerCase().includes(i));
       const icon = Boolean(found)
         ? `../icons/${found}.png`
         : undefined;
