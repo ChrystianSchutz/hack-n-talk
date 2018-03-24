@@ -6,7 +6,11 @@ class App extends Component {
   render() {
     return (
       <div className="geo-chat">
-        <h2>LocalChat</h2>
+        <img
+          src="https://images.assets-landingi.com/NcyafB63/LocalChat_logo_2.png"
+          alt="LocalChat"
+          height="80"
+        />
         <ServiceSeeker />
       </div>
     );
