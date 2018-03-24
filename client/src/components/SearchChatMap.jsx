@@ -12,6 +12,15 @@ const {
   SearchBox
 } = require('react-google-maps/lib/components/places/SearchBox');
 
+const getLocation = onGeoLocationLoaded => {
+  debugger;
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(onGeoLocationLoaded);
+  } else {
+    alert('No geolocation support');
+  }
+};
+
 const SearchChatMap = compose(
   withProps({
     googleMapURL:
@@ -33,6 +42,14 @@ const SearchChatMap = compose(
         markers: [],
         onMapMounted: ref => {
           refs.map = ref;
+          getLocation(position => {
+            this.setState({
+              center: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              }
+            });
+          });
         },
         onBoundsChanged: () => {
           this.setState({
