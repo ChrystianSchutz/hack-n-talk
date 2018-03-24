@@ -13,12 +13,31 @@ const {
 } = require('react-google-maps/lib/components/places/SearchBox');
 
 const getLocation = onGeoLocationLoaded => {
-  debugger;
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(onGeoLocationLoaded);
   } else {
     alert('No geolocation support');
   }
+};
+
+const showLiveChat = () => {
+  /* eslint-disable */
+  window.__lc = window.__lc || {};
+  window.__lc.license = 9616670;
+  (function() {
+    var lc = document.createElement('script');
+    lc.type = 'text/javascript';
+    lc.async = true;
+    lc.src =
+      ('https:' == document.location.protocol ? 'https://' : 'http://') +
+      'cdn.livechatinc.com/tracking.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(lc, s);
+  })();
+
+  setTimeout(function() {
+    parent.LC_API.open_chat_window({ source: 'minimized' });
+  }, 1000);
 };
 
 const SearchChatMap = compose(
@@ -50,6 +69,7 @@ const SearchChatMap = compose(
               }
             });
           });
+          showLiveChat();
         },
         onBoundsChanged: () => {
           this.setState({
@@ -84,7 +104,9 @@ const SearchChatMap = compose(
             center: nextCenter,
             markers: nextMarkers
           });
-          // refs.map.fitBounds(bounds);
+        },
+        onMarkerClick: (marker) => {
+          console.log(marker.latLng.lat() + " " + marker.latLng.lng());
         }
       });
     }
@@ -123,7 +145,11 @@ const SearchChatMap = compose(
       />
     </SearchBox>
     {props.markers.map((marker, index) => (
-      <Marker key={index} position={marker.position} />
+      <Marker
+        key={index}
+        position={marker.position}
+        onClick={props.onMarkerClick}
+      />
     ))}
   </GoogleMap>
 ));
