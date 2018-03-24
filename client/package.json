@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^3.3.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-google-maps": "^9.4.5",
     "react-scripts": "1.1.1"
   },
   "scripts": {
@@ -12,5 +14,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "prettier": "^1.11.1",
+    "pretty-quick": "^1.4.1"
   }
 }
