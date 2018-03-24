@@ -51,6 +51,7 @@ const SearchChatMap = compose(
       const refs = {};
 
       this.setState({
+        searchValue: '',
         bounds: null,
         center: {
           lat: 51.107885,
@@ -94,7 +95,8 @@ const SearchChatMap = compose(
           });
           const nextMarkers = places.map(place => ({
             position: place.geometry.location,
-            name: place.name
+            name: place.name,
+            category: this.state.searchValue
           }));
           const nextCenter = _.get(
             nextMarkers,
@@ -108,7 +110,12 @@ const SearchChatMap = compose(
           });
         },
         onMarkerClick: marker => {
-          console.log(marker.name);
+          window.location = `/${marker.category}/${marker.name}`;
+        },
+        onInputChange: event => {
+          this.setState({
+            searchValue: event.target.value
+          });
         }
       });
     }
@@ -130,7 +137,8 @@ const SearchChatMap = compose(
     >
       <input
         type="text"
-        placeholder="Customized your placeholder"
+        placeholder="What would you like to eat?"
+        onChange={props.onInputChange}
         style={{
           boxSizing: `border-box`,
           border: `1px solid transparent`,
@@ -152,10 +160,15 @@ const SearchChatMap = compose(
           key={index}
           position={marker.position}
           onClick={() => props.onMarkerClick(marker)}
-          icon={'../icons/burger.png'}
+          icon={`../icons/${props.searchValue}.png`}
           size={new google.maps.Size(16, 16)}
           labelAnchor={new google.maps.Point(-16, 32)}
-          labelStyle={{backgroundColor: "#FFFACD", fontSize: "10px", padding: "5px", borderRadius: "5px"}}
+          labelStyle={{
+            backgroundColor: '#FFFACD',
+            fontSize: '10px',
+            padding: '5px',
+            borderRadius: '5px'
+          }}
         >
           <span>{marker.name}</span>
         </MarkerWithLabel>
